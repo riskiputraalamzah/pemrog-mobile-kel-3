@@ -1,0 +1,13 @@
+# Abaikan file lock, biarkan container membuatnya sendiri
+pubspec.lock
+
+# Abaikan folder build lokal
+build/
+
+# Abaikan file-file cache Dart/Flutter
+.dart_tool/
+.packages
+
+# Abaikan file-file IDE
+.idea/
+*.iml
