@@ -1,28 +1,38 @@
-# Gunakan base image Flutter
-FROM fischerscode/flutter
+# --- STAGE 1: Build ---
+# Gunakan image Flutter untuk membangun aplikasi
+# Kita beri nama stage ini 'builder'
+FROM fischerscode/flutter AS builder
 
-# Set direktori kerja
 WORKDIR /app
 
-# Salin hanya file yang diperlukan untuk install dependency
+# Copy file pubspec dan get dependencies (ini memanfaatkan cache Docker)
 COPY pubspec.yaml ./
+COPY pubspec.lock ./
 RUN flutter pub get
 
-# Salin seluruh kode proyek
+# Copy seluruh source code
 COPY . .
 
-# Jalankan sebagai root sementara untuk hapus folder Android/iOS
-USER root
-RUN rm -rf android ios || true
+# (Opsional) Hapus folder platform yang tidak perlu web
+RUN rm -rf android ios macos windows linux || true
 
-# Pastikan direktori bisa ditulis
-RUN chmod -R 777 /app
-
-# Kembalikan user default ke non-root (lebih aman)
-USER flutter
-
-# Build Flutter Web (release mode)
+# Build aplikasi web dalam mode release
 RUN flutter build web --release
 
-# Jalankan Flutter web server
-CMD ["flutter", "run", "-d", "web-server", "--web-port=8080", "--web-hostname=0.0.0.0"]
+# --- STAGE 2: Serve ---
+# Gunakan image Nginx yang sangat ringan
+FROM nginx:alpine
+
+# Salin HANYA file hasil build dari stage 'builder'
+# ke direktori default Nginx
+COPY --from=builder /app/build/web /usr/share/nginx/html
+
+# (PENTING!) Salin konfigurasi Nginx kustom agar routing Flutter berfungsi
+# Kita akan buat file 'nginx.conf' di langkah berikutnya
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80 (port default Nginx)
+EXPOSE 80
+
+# Command default untuk Nginx (tidak perlu diubah, tapi jelas)
+CMD ["nginx", "-g", "daemon off;"]
