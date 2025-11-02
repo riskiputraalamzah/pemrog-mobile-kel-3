@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    container_name: flutter_web_app
+    ports:
+      - "4040:8080"
