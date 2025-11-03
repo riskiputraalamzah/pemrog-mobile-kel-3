@@ -6,14 +6,16 @@ Aplikasi ini berupa *dashboard* akademik mahasiswa yang menampilkan data-data pe
 
 ## 👥 Anggota Kelompok 3
 
-* Brigide Tirenia L
-* Indri arianti
-* Sulthon abiyyu
-* Niko Dwi Novana
-* amalia rossa
-* M. Aufa Izul Haq
-* Riski Putra Alamzah
-* Adieb aufa
+1. Brigide Tirenia A Loresta (221080200020)
+2. Indri Arianti Wibowo (2210802000005)
+3. Muhammad Sulthon Abiyyu (221080200036)
+4. Niko Dwi Novana (221080200073)
+5. Amalia Rossa Annjani (221080200023
+6. M. Aufa Izul Haq (221080200021)
+7. Riski Putra Alamzah (221080200100)
+8. Adieb Aufa Musthafa Putra (231080200006)		
+
+
 
 ## ✨ Fitur Utama
 
